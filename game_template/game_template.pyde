@@ -38,6 +38,8 @@ def setup():
 
 def draw():
     global x, y, vx, vy, ax, ay, g, f, move
+    # draw the background
+    image(background, 0, 0, 500, 500)
     # draw the character
     image(kirby, x, y - h, w, h)
     # draw the background
