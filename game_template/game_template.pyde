@@ -1,15 +1,16 @@
 def setup():
     size(1000, 500)
     background(255, 255, 255)
-    global kirby, bg, sword, got_sword
+    global kirby, bg, sword, got_sword, floor
     kirby = loadImage("data/kirby.png")
     bg = loadImage("data/background.jpg")
     sword = loadImage("data/sword.png")
+    floor = loadImage("data/ground.png")
     # draw the floor with line
     global floory, floorx
     floory = height - 100
     floorx = width
-    line(0, floory, floorx, floory)
+    # got sword is a boolean variable to check if the character got the sword
     got_sword = False
     # initialize the position of the character standing on the floor
     global x, y
@@ -45,7 +46,7 @@ def setup():
     sworday = 0
     swordg = 10
     swordf = 0.1
-    swordmove = 5
+    swordmove = 7
     swordx = 100
     swordy = 0
 
@@ -56,19 +57,11 @@ def draw():
     image(bg, 0, 0, width, height)
     image(kirby, x, y - h, w, h)
     image(sword, swordx, swordy, 100, 100)
+    image(floor, 0, floory, floorx, floory)
     drop_weapon()
     textDisplay()
     move_character()
     get_weapon()
-
-    # draw a rectangle to show the floor, the rectangle size should cover the area under the floor which is the area under floorx and floory
-    # when kirby touch the ground, the rectangle will change the color to red
-    # when kirby leave the ground, the rectangle will change the color to green
-    if y == floory:
-        fill(255, 0, 0)
-    else:
-        fill(0, 255, 0)
-    rect(0, floory, floorx, floory)
 
 def get_weapon():
     global got_sword
