@@ -8,4 +8,3 @@
 
 ## Progress
 
-![](progress/15022023.png)
