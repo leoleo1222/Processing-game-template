@@ -1,19 +1,19 @@
 def setup():
-    size(500, 500)
+    size(1000, 500)
     background(255, 255, 255)
-    global kirby
+    global kirby, bg, sword
     kirby = loadImage("data/kirby.png")
-    global background
-    background = loadImage("data/background.jpg")
+    bg = loadImage("data/background.jpg")
+    sword = loadImage("data/sword.png")
     # draw the floor with line
     global floory, floorx
-    floory = 400
-    floorx = 500
+    floory = height - 100
+    floorx = width
     line(0, floory, floorx, floory)
     # initialize the position of the character standing on the floor
     global x, y
     x = 0
-    y = 400
+    y = floory
     # character size
     global w, h
     w = 100
@@ -28,22 +28,69 @@ def setup():
     ay = 0
     # initialize the gravity
     global g
-    g = 0.5
+    g = 10
     # initialize the friction
     global f
     f = 0.1
     # move the character with key input w, a, s, d
     global move
-    move = 1
+    move = 3
+    global swordx, swordy, swordvx, swordvy, swordax, sworday, swordg, swordf, swordmove
+    swordx = 100
+    swordy = 0
+    swordvx = 0
+    swordvy = 0
+    swordax = 0
+    sworday = 0
+    swordg = 10
+    swordf = 0.1
+    swordmove = 3
+    swordx = 100
+    swordy = 0
+
 
 def draw():
-    global x, y, vx, vy, ax, ay, g, f, move
+    global g, f, swordy , floory , swordvy
     # draw the background
-    image(background, 0, 0, 500, 500)
-    # draw the character
+    image(bg, 0, 0, width, height)
     image(kirby, x, y - h, w, h)
-    # draw the background
-    # image(background, 0, 0, 500, 500)
+    image(sword, swordx, swordy, 100, 100)
+    drop_weapon()
+    textDisplay()
+    move_character()
+
+    # draw a rectangle to show the floor, the rectangle size should cover the area under the floor which is the area under floorx and floory
+    # when kirby touch the ground, the rectangle will change the color to red
+    # when kirby leave the ground, the rectangle will change the color to green
+    if y == floory:
+        fill(255, 0, 0)
+    else:
+        fill(0, 255, 0)
+    rect(0, floory, floorx, floory)
+
+# in this function if the user press the key '1', the sword will drop from the sky until the floory
+def drop_weapon():
+    global swordx, swordy, swordvx, swordvy, swordax, sworday, swordg, swordf, swordmove
+    if key == '1':
+        sworday += swordmove
+        swordvx += swordax
+        swordvy += sworday
+        swordx += swordvx
+        swordy += swordvy
+        swordvy += swordg
+        swordvx *= swordf
+        swordvy *= swordf
+        swordax = 0
+        sworday = 0
+
+
+def textDisplay():
+    fill(0, 0, 0)
+    textSize(50)
+    text("[1]", 10, 50)
+
+def move_character():
+    global x, y, vx, vy, ax, ay, g, f, move
     # move the character with key input w, a, s, d
     if key == 'w':
         ay = -move
@@ -80,18 +127,12 @@ def draw():
         x = floorx - w
         vx = 0
     # check if the character is on the ceiling
-    if y <= 0:
-        y = 0
-        vy = 0
+    if y <= h:
+        y = h
+        vy = 0 
 
-    # draw a rectangle to show the floor, the rectangle size should cover the area under the floor which is the area under floorx and floory
-    # when kirby touch the ground, the rectangle will change the color to red
-    # when kirby leave the ground, the rectangle will change the color to green
-    if y == floory:
-        fill(255, 0, 0)
-    else:
-        fill(0, 255, 0)
-    rect(0, floory, floorx, floory)
+    
+
 
 
 
