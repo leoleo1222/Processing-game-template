@@ -8,4 +8,4 @@
 
 ## Progress
 
-![](progress/Screenshot 2023-02-15 at 12.00.59 PM 1.png)
+![](progress/progress_1.png)
