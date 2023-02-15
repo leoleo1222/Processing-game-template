@@ -1,7 +1,7 @@
 def setup():
     size(1000, 500)
     background(255, 255, 255)
-    global kirby, bg, sword
+    global kirby, bg, sword, got_sword
     kirby = loadImage("data/kirby.png")
     bg = loadImage("data/background.jpg")
     sword = loadImage("data/sword.png")
@@ -10,6 +10,7 @@ def setup():
     floory = height - 100
     floorx = width
     line(0, floory, floorx, floory)
+    got_sword = False
     # initialize the position of the character standing on the floor
     global x, y
     x = 0
@@ -34,7 +35,7 @@ def setup():
     f = 0.1
     # move the character with key input w, a, s, d
     global move
-    move = 3
+    move = 5
     global swordx, swordy, swordvx, swordvy, swordax, sworday, swordg, swordf, swordmove
     swordx = 100
     swordy = 0
@@ -44,7 +45,7 @@ def setup():
     sworday = 0
     swordg = 10
     swordf = 0.1
-    swordmove = 3
+    swordmove = 5
     swordx = 100
     swordy = 0
 
@@ -58,6 +59,7 @@ def draw():
     drop_weapon()
     textDisplay()
     move_character()
+    get_weapon()
 
     # draw a rectangle to show the floor, the rectangle size should cover the area under the floor which is the area under floorx and floory
     # when kirby touch the ground, the rectangle will change the color to red
@@ -67,6 +69,12 @@ def draw():
     else:
         fill(0, 255, 0)
     rect(0, floory, floorx, floory)
+
+def get_weapon():
+    global got_sword
+    # if the sword touched the character, the sword will stay on the character
+    if swordx >= x and swordx <= x + w and swordy >= y - h and swordy <= y:
+        got_sword = True
 
 # in this function if the user press the key '1', the sword will drop from the sky until the floory
 def drop_weapon():
@@ -90,7 +98,7 @@ def textDisplay():
     text("[1]", 10, 50)
 
 def move_character():
-    global x, y, vx, vy, ax, ay, g, f, move
+    global x, y, vx, vy, ax, ay, g, f, move, got_sword, swordx, swordy
     # move the character with key input w, a, s, d
     if key == 'w':
         ay = -move
@@ -130,6 +138,9 @@ def move_character():
     if y <= h:
         y = h
         vy = 0 
+    if got_sword:
+        swordx = x+ 50
+        swordy = y - 120
 
     
 
